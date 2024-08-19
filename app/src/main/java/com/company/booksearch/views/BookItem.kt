@@ -1,7 +1,5 @@
 package com.company.booksearch.views
 
-import android.net.Uri
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -12,7 +10,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -25,7 +22,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.company.booksearch.model.Book
-import java.net.URL
 
 @Composable
 fun BookItem(book: Book, onClick: () -> Unit) {
@@ -45,7 +41,7 @@ fun BookItem(book: Book, onClick: () -> Unit) {
                 .height(200.dp)
         ) {
             AsyncImage(
-                model = book.imageUrl ,
+                model = book.imageUrl,
                 contentDescription = "Book Cover",
                 modifier = Modifier
                     .size(width = 120.dp, height = 200.dp)

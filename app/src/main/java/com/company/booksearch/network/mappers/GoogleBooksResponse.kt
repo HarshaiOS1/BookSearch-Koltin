@@ -18,7 +18,9 @@ data class VolumeInfo(
     val authors: List<String>?,
     val description: String?,
     val imageLinks: ImageLinks?
-)
+) { val fixedThumbnailUrl: String?
+        get() = imageLinks?.thumbnail?.replace("http://", "https://")
+}
 
 @Serializable
 data class ImageLinks(
