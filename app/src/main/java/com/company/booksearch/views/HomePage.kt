@@ -137,12 +137,33 @@ fun HomePage(navController: NavController, viewModel: BookViewModel) {
                     )
                 }
             } else {
+                val recentSearchedBooks = viewModel.filteredBooks.take(10)
+                val previousBooks = viewModel.filteredBooks.drop(10)
                 LazyColumn {
-                    items(viewModel.filteredBooks) { book ->
+                    items(recentSearchedBooks) { book ->
                         BookItem(book, onClick = {
                             viewModel.selectBook(book.id)
                             navController.navigate("detail")
                         })
+                    }
+
+                    if (previousBooks.isNotEmpty()) {
+                        item {
+                            Text(
+                                text = "Previous Search Results",
+                                style = MaterialTheme.typography.headlineSmall,
+                                modifier = Modifier
+                                    .padding(16.dp)
+                                    .fillMaxWidth(),
+                                textAlign = TextAlign.Center
+                            )
+                        }
+                        items(previousBooks) { book ->
+                            BookItem(book, onClick = {
+                                viewModel.selectBook(book.id)
+                                navController.navigate("detail")
+                            })
+                        }
                     }
                 }
             }
