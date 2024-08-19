@@ -13,5 +13,6 @@ data class Book(
     val author: String,
     val description: String,
     val imageUrl: String,
-    var isFavorite: Boolean = false
+    var isFavorite: Boolean = false,
+    val timestamp: Long = System.currentTimeMillis()
 )
