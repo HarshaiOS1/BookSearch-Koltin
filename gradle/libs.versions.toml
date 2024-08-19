@@ -17,7 +17,7 @@ kotlinx-serialization = "1.5.0"
 coil = "2.2.2"
 okhttp-logging = "4.9.3"
 compose = "1.6.8"
-room = "2.5.0"
+room = "2.6.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }

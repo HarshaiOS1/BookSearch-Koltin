@@ -75,10 +75,7 @@ class BookViewModel(application: Application) : AndroidViewModel(application) {
                 } ?: emptyList()
 
                 bookDao.insertBooks(newBooks)
-
-                books = newBooks
-
-
+                loadBooksFromDatabase()
             } catch (e: Exception) {
                 error = e.localizedMessage ?: "Error Fetching Books"
             }
