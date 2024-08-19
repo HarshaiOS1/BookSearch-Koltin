@@ -1,5 +1,6 @@
 package com.company.booksearch.views
 
+import android.content.Context
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -34,24 +35,29 @@ import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.company.booksearch.utils.NetworkObserver
 import com.company.booksearch.viewModel.BookViewModel
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class)
 @Composable
 fun HomePage(navController: NavController, viewModel: BookViewModel) {
+    val context = LocalContext.current
+    val networkObserver = remember { NetworkObserver(context) }
+    val isConnected by networkObserver.isConnected
+
     var searchQuery by remember { mutableStateOf("") }
     val focusManager = LocalFocusManager.current
     val scaffoldState = rememberBottomSheetScaffoldState()
 
     BottomSheetScaffold(
         scaffoldState = scaffoldState,
-
         sheetContent = {
             FilterBottomSheet(
                 filterSearchQuery = viewModel.filterSearchQuery,
@@ -74,8 +80,20 @@ fun HomePage(navController: NavController, viewModel: BookViewModel) {
                     focusManager.clearFocus()
                 },
                 onToggleFavourites = { viewModel.toggleShowFavourites() },
-                showFavourites = viewModel.showFavourites
+                showFavourites = viewModel.showFavourites,
+                isConnected = isConnected
             )
+            if (!isConnected) {
+                Text(
+                    text = "No Internet..!",
+                    color = MaterialTheme.colorScheme.error,
+                    style = MaterialTheme.typography.bodyLarge,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(8.dp),
+                    textAlign = TextAlign.Left
+                )
+            }
             Divider(modifier = Modifier.height(2.dp))
 
             if (viewModel.error.isNotEmpty()) {
@@ -122,7 +140,8 @@ fun SearchSection(
     onSearchQueryChange: (String) -> Unit,
     onSearchClick: () -> Unit,
     onToggleFavourites: () -> Unit,
-    showFavourites: Boolean
+    showFavourites: Boolean,
+    isConnected: Boolean
 ) {
     val focusManager = LocalFocusManager.current
 
@@ -140,9 +159,11 @@ fun SearchSection(
         Row {
             Button(
                 onClick = onSearchClick,
+                enabled = isConnected,
                 modifier = Modifier
                     .padding(5.dp)
                     .weight(1f)
+
             ) {
                 Text("Search")
             }
