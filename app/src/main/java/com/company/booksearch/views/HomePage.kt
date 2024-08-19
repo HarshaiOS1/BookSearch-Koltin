@@ -62,110 +62,158 @@ fun HomePage(navController: NavController, viewModel: BookViewModel) {
         },
         sheetPeekHeight = 56.dp,
         topBar = {
-            TopAppBar(
-                title = {
-                    Text(
-                        text = "Books",
-                        textAlign = TextAlign.Center,
-                        fontSize = 24.sp,
-                        modifier = Modifier.fillMaxWidth()
-                    )
-                },
-                modifier = Modifier,
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.primary,
-                    titleContentColor = Color.White,
-                    actionIconContentColor = Color.White,
-                    navigationIconContentColor = Color.White
-                ),
-                windowInsets = TopAppBarDefaults.windowInsets
-            )
+            HomeTopBar()
         },
     ) {
         Column {
-            Column {
-                TextField(
-                    value = searchQuery,
-                    keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
-                    keyboardActions = KeyboardActions {
-                        focusManager.clearFocus()
-                    },
-                    onValueChange = { searchQuery = it },
-                    label = { Text("Search Books Online..") },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(2.dp)
+            SearchSection(
+                searchQuery = searchQuery,
+                onSearchQueryChange = { searchQuery = it },
+                onSearchClick = {
+                    viewModel.searchBooks(searchQuery)
+                    focusManager.clearFocus()
+                },
+                onToggleFavourites = { viewModel.toggleShowFavourites() },
+                showFavourites = viewModel.showFavourites
+            )
+            Divider(modifier = Modifier.height(2.dp))
+
+            if (viewModel.error.isNotEmpty()) {
+                ErrorSection(viewModel.error)
+            } else {
+                BookListSection(
+                    navController = navController,
+                    viewModel = viewModel
                 )
-                Row {
-                    Button(
-                        onClick = {
-                            viewModel.searchBooks(searchQuery)
-                            focusManager.clearFocus()
-                        },
-                        modifier = Modifier
-                            .padding(5.dp)
-                            .weight(1f)
-                    ) {
-                        Text("Search")
-                    }
-                    Button(
-                        onClick = { viewModel.toggleShowFavourites() },
-                        modifier = Modifier
-                            .padding(5.dp)
-                            .weight(1f),
-                    ) {
-                        Text(text = if (viewModel.showFavourites) "Show All Books" else "Show Favourite Books")
-                    }
-                }
+            }
+        }
+    }
+}
+
+/**
+ * Composable for the Top Bar of the Home Page.
+ */
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun HomeTopBar() {
+    TopAppBar(
+        title = {
+            Text(
+                text = "Books",
+                textAlign = TextAlign.Center,
+                fontSize = 24.sp,
+                modifier = Modifier.fillMaxWidth()
+            )
+        },
+        colors = TopAppBarDefaults.topAppBarColors(
+            containerColor = MaterialTheme.colorScheme.primary,
+            titleContentColor = Color.White
+        ),
+        windowInsets = TopAppBarDefaults.windowInsets
+    )
+}
+
+/**
+ * Composable for the search section which includes the search input and filter buttons.
+ */
+@Composable
+fun SearchSection(
+    searchQuery: String,
+    onSearchQueryChange: (String) -> Unit,
+    onSearchClick: () -> Unit,
+    onToggleFavourites: () -> Unit,
+    showFavourites: Boolean
+) {
+    val focusManager = LocalFocusManager.current
+
+    Column {
+        TextField(
+            value = searchQuery,
+            onValueChange = onSearchQueryChange,
+            label = { Text("Search Books Online..") },
+            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+            keyboardActions = KeyboardActions { focusManager.clearFocus() },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(2.dp)
+        )
+        Row {
+            Button(
+                onClick = onSearchClick,
+                modifier = Modifier
+                    .padding(5.dp)
+                    .weight(1f)
+            ) {
+                Text("Search")
+            }
+            Button(
+                onClick = onToggleFavourites,
+                modifier = Modifier
+                    .padding(5.dp)
+                    .weight(1f)
+            ) {
+                Text(if (showFavourites) "Show All Books" else "Show Favourite Books")
+            }
+        }
+    }
+}
+
+
+/**
+ * Composable to display error messages if the search or data loading fails.
+ */
+@Composable
+fun ErrorSection(errorMessage: String) {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp),
+        contentAlignment = Alignment.Center
+    ) {
+        Text(
+            text = errorMessage,
+            style = MaterialTheme.typography.bodyLarge,
+            color = MaterialTheme.colorScheme.error
+        )
+    }
+}
+
+/**
+ * Composable to display the list of books along with a header separating the fresh search results and previous results.
+ */
+@Composable
+fun BookListSection(navController: NavController, viewModel: BookViewModel) {
+    val top10Books = viewModel.filteredBooks.take(10)
+    val previousBooks = viewModel.filteredBooks.drop(10)
+
+    LazyColumn {
+        // Display top 10 fresh results
+        items(top10Books) { book ->
+            BookItem(book, onClick = {
+                viewModel.selectBook(book.id)
+                navController.navigate("detail")
+            })
+        }
+
+        // Display header if there are previous search results
+        if (previousBooks.isNotEmpty()) {
+            item {
+                Text(
+                    text = "Previous Search Results",
+                    style = MaterialTheme.typography.headlineSmall,
+                    modifier = Modifier
+                        .padding(16.dp)
+                        .fillMaxWidth(),
+                    textAlign = TextAlign.Center
+                )
             }
 
-            Divider(
-                modifier = Modifier
-                    .height(2.dp)
-            )
-            if (viewModel.error.isNotEmpty()) {
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(16.dp),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Text(
-                        text = viewModel.error,
-                        style = MaterialTheme.typography.bodyLarge,
-                        color = MaterialTheme.colorScheme.error
-                    )
-                }
-            } else {
-                val recentSearchedBooks = viewModel.filteredBooks.take(10)
-                val previousBooks = viewModel.filteredBooks.drop(10)
-                LazyColumn {
-                    items(recentSearchedBooks) { book ->
-                        BookItem(book, onClick = {
-                            viewModel.selectBook(book.id)
-                            navController.navigate("detail")
-                        })
-                    }
-
-                    if (previousBooks.isNotEmpty()) {
-                        item {
-                            Text(
-                                text = "Previous Search Results",
-                                style = MaterialTheme.typography.headlineSmall,
-                                modifier = Modifier
-                                    .padding(16.dp)
-                                    .fillMaxWidth(),
-                                textAlign = TextAlign.Center
-                            )
-                        }
-                        items(previousBooks) { book ->
-                            BookItem(book, onClick = {
-                                viewModel.selectBook(book.id)
-                                navController.navigate("detail")
-                            })
-                        }
-                    }
-                }
+            // Display previous search results
+            items(previousBooks) { book ->
+                BookItem(book, onClick = {
+                    viewModel.selectBook(book.id)
+                    navController.navigate("detail")
+                })
             }
         }
     }
