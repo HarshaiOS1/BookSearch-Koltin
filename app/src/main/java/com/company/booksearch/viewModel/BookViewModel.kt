@@ -14,22 +14,32 @@ import com.company.booksearch.network.apis.GoogleBooksApi
 import kotlinx.coroutines.launch
 
 /**
- * BooksVieModel holding books data which drives the ui
- * this also has multiple functions to get perform operation
- * will be updated as it grows, lets test with dummy book
- * */
+The BookViewModel manages the data and handles UI-related logic for book-related operations.
+This ViewModel interacts with the local database via the BookDao and also fetches data from an external Google Books API.*/
 class BookViewModel(application: Application) : AndroidViewModel(application) {
-
+    //Provides access to the DAO for performing database operations.
     private val bookDao: BookDao = BookDatabase.getDatabase(application).bookDao()
+
+    //An instance of the API service used to fetch data from the Google Books API.
     private val googleBooksApi = GoogleBooksApi.create()
+
+    //Holds the list of books currently available in the ViewModel.
     var books by mutableStateOf(listOf<Book>())
         private set
+
+    //Holds the currently selected book based on user interactions.
     var selectedBook: Book? by mutableStateOf(null)
         private set
+
+    //Controls whether the UI should show only favorite books
     var showFavourites by mutableStateOf(false)
         private set
+
+    //Stores any error messages that may arise during data operations.
     var error by mutableStateOf("")
         private set
+
+    //Dynamically filters books based on the showFavourites flag and the search query (filterSearchQuery).
     val filteredBooks: List<Book>
         get() = if (showFavourites) {
             books.filter {
@@ -43,12 +53,17 @@ class BookViewModel(application: Application) : AndroidViewModel(application) {
                         it.author.contains(filterSearchQuery, ignoreCase = true)
             }
         }
+
+    // Holds the search query used to filter books in the UI.
     var filterSearchQuery by mutableStateOf("")
 
+    // The init block initializes the ViewModel by loading the books from the local database when the ViewModel is created.
     init {
         loadBooksFromDatabase()
     }
 
+    /** Loads all books from the local database into the books list.
+     * Sets the error property in case of any issues during data loading*/
     private fun loadBooksFromDatabase() {
         viewModelScope.launch {
             try {
@@ -59,6 +74,11 @@ class BookViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
+    /** Fetches books from the Google Books API based on the provided search query.
+    Maps the API response to the Book model, then inserts the fetched books into the local database.
+    Reloads the books from the database after insertion.
+    Handles errors by setting the error property.
+     */
     fun searchBooks(query: String) {
         viewModelScope.launch {
             try {
@@ -89,6 +109,7 @@ class BookViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
+    //    Toggles the showFavourites flag, which determines whether only favorite books should be displayed.
     fun toggleShowFavourites() {
         showFavourites = !showFavourites
     }

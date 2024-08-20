@@ -1,6 +1,8 @@
 package com.company.booksearch.network.mappers
 import kotlinx.serialization.Serializable
-
+/**
+ * data class to parse google response on search
+ * */
 @Serializable
 data class GoogleBooksResponse(
     val items: List<BookItem>?

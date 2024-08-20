@@ -36,7 +36,13 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.company.booksearch.viewModel.BookViewModel
-
+/**BookDetailPage
+ * Displays the detailed view of a selected book, including the book cover, title, author, description,
+ * and an option to mark/unmark the book as a favorite.
+ * @param:
+ * viewModel: BookViewModel: The ViewModel that holds the selected book’s data.
+ * navController: NavHostController: Handles navigation between different screens.
+ * */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BookDetailPage(viewModel: BookViewModel, navController: NavHostController) {
@@ -93,7 +99,6 @@ fun BookDetailPage(viewModel: BookViewModel, navController: NavHostController) {
                 )
 
                 Spacer(modifier = Modifier.width(5.dp))
-
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -144,19 +149,16 @@ fun BookDetailPage(viewModel: BookViewModel, navController: NavHostController) {
                     }
                 }
             }
-
             Divider(
                 modifier = Modifier
                     .height(5.dp)
             )
-
             Text(
                 text = book.description,
                 fontSize = 18.sp,
                 modifier = Modifier
                     .verticalScroll(rememberScrollState(0))
                     .padding(5.dp)
-
             )
         }
     } else {
