@@ -7,14 +7,14 @@ import androidx.activity.viewModels
 import androidx.compose.material3.Surface
 import com.company.booksearch.ui.theme.BookSearchTheme
 import com.company.booksearch.viewModel.BookViewModel
-import com.company.booksearch.viewModel.BookViewModelFactory
 import com.company.booksearch.views.BookApp
+import android.app.Application
+import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.HiltAndroidApp
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-    private val viewModel: BookViewModel by viewModels {
-        BookViewModelFactory(application)
-    }
-
+    private val viewModel: BookViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -26,3 +26,6 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
+
+@HiltAndroidApp
+class MyApp : Application()

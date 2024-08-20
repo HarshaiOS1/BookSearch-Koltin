@@ -11,14 +11,19 @@ import com.company.booksearch.data.BookDatabase
 import com.company.booksearch.model.Book
 import com.company.booksearch.model.dao.BookDao
 import com.company.booksearch.network.apis.GoogleBooksApi
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 /**
 The BookViewModel manages the data and handles UI-related logic for book-related operations.
 This ViewModel interacts with the local database via the BookDao and also fetches data from an external Google Books API.*/
-class BookViewModel(application: Application) : AndroidViewModel(application) {
+@HiltViewModel
+class BookViewModel @Inject constructor(
+    private val database: BookDatabase
+) : ViewModel() {
     //Provides access to the DAO for performing database operations.
-    private val bookDao: BookDao = BookDatabase.getDatabase(application).bookDao()
+    private val bookDao: BookDao = database.bookDao()
 
     //An instance of the API service used to fetch data from the Google Books API.
     private val googleBooksApi = GoogleBooksApi.create()
