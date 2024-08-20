@@ -11,7 +11,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material3.BottomSheetScaffold
 import androidx.compose.material3.Button
 import androidx.compose.material3.Divider
@@ -41,6 +40,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.company.booksearch.utils.NetworkObserver
 import com.company.booksearch.viewModel.BookViewModel
+
 /** The main composable function for the home page of the book search app. It integrates the filter options with a bottom sheet and a top bar.
 
 Parameters:

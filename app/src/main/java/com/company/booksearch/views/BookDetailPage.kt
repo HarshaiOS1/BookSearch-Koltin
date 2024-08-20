@@ -159,6 +159,7 @@ fun BookDetailPage(viewModel: BookViewModel, navController: NavHostController) {
                 modifier = Modifier
                     .verticalScroll(rememberScrollState(0))
                     .padding(5.dp)
+                    .weight(1f)
             )
         }
     } else {
