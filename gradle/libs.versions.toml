@@ -19,6 +19,9 @@ okhttp-logging = "4.9.3"
 compose = "1.6.8"
 room = "2.6.1"
 hiltVersion = "2.48"
+mockito = "4.6.1"
+kotlinx-coroutines-test = "1.7.1"
+android-core-testing = "2.1.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -50,7 +53,9 @@ room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
 room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
 hilt-android = { group = "com.google.dagger", name = "hilt-android" , version.ref = "hiltVersion"}
 hilt-compiler = { group = "com.google.dagger", name = "hilt-compiler" , version.ref = "hiltVersion"}
-
+mockito = { module = "org.mockito:mockito-android", version.ref = "mockito" }
+kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinx-coroutines-test" }
+android-core-test = {module = "androidx.arch.core:core-testing", version.ref = "android-core-testing"}
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
