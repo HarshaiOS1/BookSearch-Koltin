@@ -29,3 +29,7 @@ Also history of search result is maintained in the app and user can scroll down 
 6. **Documentaion** : Kotlin standard documentaion is added to all the classes, on hovering on the components in the project its details are provided.
 
 ![ScreenRecording2024-08-20at11 59 14-ezgif com-video-to-gif-converter](https://github.com/user-attachments/assets/b02cd6d8-3048-4ff5-b17c-3062553e2929)
+
+7. **Dark Mode** : Application supports both light and dark mode. 
+
+ ![ezgif com-resize](https://github.com/user-attachments/assets/a2a61e3b-8078-448f-9e57-03f4120acb8c)
