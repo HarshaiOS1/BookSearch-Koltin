@@ -1,6 +1,5 @@
 package com.company.booksearch.views
 
-import android.content.Context
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -12,26 +11,24 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.BottomSheetValue
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material3.BottomSheetScaffold
 import androidx.compose.material3.Button
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SheetState
+import androidx.compose.material3.SheetValue
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberBottomSheetScaffoldState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
-import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -45,7 +42,7 @@ import androidx.navigation.NavController
 import com.company.booksearch.utils.NetworkObserver
 import com.company.booksearch.viewModel.BookViewModel
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomePage(navController: NavController, viewModel: BookViewModel) {
     val context = LocalContext.current
@@ -54,8 +51,14 @@ fun HomePage(navController: NavController, viewModel: BookViewModel) {
 
     var searchQuery by remember { mutableStateOf("") }
     val focusManager = LocalFocusManager.current
-    val scaffoldState = rememberBottomSheetScaffoldState()
 
+    val scaffoldState = rememberBottomSheetScaffoldState(
+        SheetState(
+            skipHiddenState = true,
+            skipPartiallyExpanded = false,
+            initialValue = SheetValue.PartiallyExpanded
+        )
+    )
     BottomSheetScaffold(
         scaffoldState = scaffoldState,
         sheetContent = {
@@ -159,7 +162,7 @@ fun SearchSection(
         Row {
             Button(
                 onClick = onSearchClick,
-                enabled = isConnected,
+                enabled = (isConnected && searchQuery.length > 2),
                 modifier = Modifier
                     .padding(5.dp)
                     .weight(1f)
@@ -207,7 +210,10 @@ fun BookListSection(navController: NavController, viewModel: BookViewModel) {
     val top10Books = viewModel.filteredBooks.take(10)
     val previousBooks = viewModel.filteredBooks.drop(10)
 
-    LazyColumn {
+    LazyColumn(
+        modifier = Modifier
+            .padding(bottom = 56.dp)
+    ) {
         // Display top 10 fresh results
         items(top10Books) { book ->
             BookItem(book, onClick = {
