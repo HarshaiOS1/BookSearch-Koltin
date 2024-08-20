@@ -14,6 +14,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
+/**FilterBottomSheet
+ * A composable function that provides a user interface to filter books by a search query. It includes a text field for entering a query and a button to clear the filter.
+ * @param:
+ * filterSearchQuery: String: The current value of the search query.
+ * onSearchQueryChange: (String) -> Unit: A lambda function that handles updates to the search query when the user types in the text field or clicks the clear button.
+ * Usage:
+ * This function is typically used within a bottom sheet or a modal where users can filter books based on their title or author. */
 @Composable
 fun FilterBottomSheet(
     filterSearchQuery: String,

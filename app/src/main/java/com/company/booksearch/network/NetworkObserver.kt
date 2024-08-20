@@ -12,7 +12,9 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-
+/**NetworkObserver
+ * Observes the network and notifies the observing views of any change in connectivity
+ * */
 class NetworkObserver(context: Context) {
 
     private val connectivityManager =

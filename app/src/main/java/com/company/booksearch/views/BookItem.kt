@@ -23,6 +23,10 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.company.booksearch.model.Book
 
+/**
+ * BookItem is used to display the books details in a list,
+ * contain cover image, title and fav label
+ * */
 @Composable
 fun BookItem(book: Book, onClick: () -> Unit) {
     Card(
@@ -61,7 +65,7 @@ fun BookItem(book: Book, onClick: () -> Unit) {
                         .weight(0.6f)
                 ) {
                     Text(
-                        text = "Title: ${book.title}",
+                        text = book.title,
                         style = MaterialTheme.typography.titleLarge,
                         maxLines = 3
                     )
@@ -76,7 +80,7 @@ fun BookItem(book: Book, onClick: () -> Unit) {
                         .weight(0.4f)
                 ) {
                     Text(
-                        text = "Author: ${book.author}",
+                        text = book.author,
                         style = MaterialTheme.typography.bodyMedium,
                         maxLines = 2,
                     )

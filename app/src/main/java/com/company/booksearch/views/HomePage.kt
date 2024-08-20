@@ -41,7 +41,12 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.company.booksearch.utils.NetworkObserver
 import com.company.booksearch.viewModel.BookViewModel
+/** The main composable function for the home page of the book search app. It integrates the filter options with a bottom sheet and a top bar.
 
+Parameters:
+navController: NavController: Handles navigation between different screens in the app.
+viewModel: BookViewModel: The ViewModel that holds the data and logic for the book list and search filter.
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomePage(navController: NavController, viewModel: BookViewModel) {
@@ -166,7 +171,6 @@ fun SearchSection(
                 modifier = Modifier
                     .padding(5.dp)
                     .weight(1f)
-
             ) {
                 Text("Search")
             }
