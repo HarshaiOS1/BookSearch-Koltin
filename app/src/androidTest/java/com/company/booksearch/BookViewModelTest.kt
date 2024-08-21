@@ -9,6 +9,7 @@ import kotlinx.coroutines.delay
 import okhttp3.internal.wait
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
+import org.junit.Assert.assertNotEquals
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
@@ -26,24 +27,30 @@ class BookViewModelTest {
         bookViewModel = BookViewModel(database)
     }
 
+    /**
+     * Testing of book search operation
+     * NOTE: Need to mock api request
+     * */
     @Test
     fun testBookSearchOpearation() {
         //inital book count should be zero
         val count = bookViewModel.books.count()
         assertEquals(0, count)
-
         val latch = CountDownLatch(1)
-        //Need to mock this api request
+        //IMP: Need to mock this api request
         bookViewModel.searchBooks("testing")
         latch.await(3, TimeUnit.SECONDS)
         //check if books are fetched and added to db
         assert(bookViewModel.books.isNotEmpty())
     }
 
+    /**
+     * Testing marking a book as favourite
+     * */
     @Test
     fun testTogglingBookAsFavorite() {
         val latch = CountDownLatch(1)
-        //Need to mock this api request
+        //IMP: Need to mock this api request
         bookViewModel.searchBooks("testing")
         latch.await(3, TimeUnit.SECONDS)
         val book = bookViewModel.filteredBooks.first()
@@ -55,6 +62,21 @@ class BookViewModelTest {
         Thread.sleep(500)
         val books = bookViewModel.filteredBooks
         assertTrue(books.first().isFavorite)
+    }
+
+    /**
+     * Testing local filtering of books by author or title
+     */
+    @Test
+    fun testFilterBySearchQuery() {
+        val latch = CountDownLatch(1)
+        //IMP: Need to mock this api request
+        bookViewModel.searchBooks("testing")
+        latch.await(3, TimeUnit.SECONDS)
+        val initialCount = bookViewModel.filteredBooks.count()
+        bookViewModel.filterSearchQuery = "amazon"
+        val bookCount = bookViewModel.filteredBooks.count()
+        assertNotEquals(initialCount, bookCount)
     }
 
 }
