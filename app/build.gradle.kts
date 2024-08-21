@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
     id("kotlin-kapt")
+    id("com.google.dagger.hilt.android")
 }
 
 android {
@@ -73,7 +74,15 @@ dependencies {
     implementation(libs.compose.material.icons.extended)
     implementation(libs.room.runtime)
     implementation(libs.room.ktx)
+    implementation(libs.androidx.monitor)
+    implementation(libs.core.ktx)
     kapt(libs.room.compiler)
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.compiler)
+    implementation(libs.mockito)
+    testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(libs.android.core.test)
+    testImplementation(libs.net.bytebuddy)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
