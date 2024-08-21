@@ -13,15 +13,18 @@ navigationRuntimeKtx = "2.7.7"
 navigationCompose = "2.7.7"
 material3Android = "1.2.1"
 retrofit = "2.9.0"
-kotlinx-serialization = "1.5.0"
+kotlinx-serialization = "1.6.3"
 coil = "2.2.2"
 okhttp-logging = "4.9.3"
 compose = "1.6.8"
 room = "2.6.1"
 hiltVersion = "2.48"
-mockito = "4.6.1"
+mockito = "5.12.0"
+bytebuddy = "1.14.19"
 kotlinx-coroutines-test = "1.7.1"
-android-core-testing = "2.1.0"
+android-core-testing = "2.2.0"
+monitor = "1.7.2"
+coreKtxVersion = "1.6.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -56,6 +59,9 @@ hilt-compiler = { group = "com.google.dagger", name = "hilt-compiler" , version.
 mockito = { module = "org.mockito:mockito-android", version.ref = "mockito" }
 kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinx-coroutines-test" }
 android-core-test = {module = "androidx.arch.core:core-testing", version.ref = "android-core-testing"}
+net-bytebuddy = {module = "net.bytebuddy:byte-buddy", version.ref = "bytebuddy"}
+androidx-monitor = { group = "androidx.test", name = "monitor", version.ref = "monitor" }
+core-ktx = { group = "androidx.test", name = "core-ktx", version.ref = "coreKtxVersion" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

@@ -38,4 +38,10 @@ interface BookDao {
      */
     @Update
     suspend fun updateBook(book: Book)
+
+    /**
+     * Deletes all books from the database.
+     */
+    @Query("DELETE FROM books")
+    suspend fun clearAllBooks()
 }
