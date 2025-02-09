@@ -35,6 +35,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -61,7 +62,8 @@ fun HomePage(navController: NavController, viewModel: BookViewModel) {
         SheetState(
             skipHiddenState = true,
             skipPartiallyExpanded = false,
-            initialValue = SheetValue.PartiallyExpanded
+            initialValue = SheetValue.PartiallyExpanded,
+            density = Density(Float.MIN_VALUE)
         )
     )
     BottomSheetScaffold(

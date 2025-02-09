@@ -1,22 +1,23 @@
 [versions]
-agp = "8.3.1"
-coilCompose = "2.1.0"
-kotlin = "1.9.0"
-coreKtx = "1.10.1"
+agp = "8.7.3"
+coilCompose = "2.2.2"
+compiler = "1.5.15"
+kotlin = "1.9.22"
+coreKtx = "1.15.0"
 junit = "4.13.2"
-junitVersion = "1.1.5"
-espressoCore = "3.5.1"
-lifecycleRuntimeKtx = "2.6.1"
-activityCompose = "1.7.0"
-composeBom = "2023.08.00"
-navigationRuntimeKtx = "2.7.7"
-navigationCompose = "2.7.7"
+junitVersion = "1.2.1"
+espressoCore = "3.6.1"
+lifecycleRuntimeKtx = "2.8.7"
+activityCompose = "1.10.0"
+composeBom = "2025.01.01"
+navigationRuntimeKtx = "2.8.6"
+navigationCompose = "2.8.6"
 material3Android = "1.2.1"
 retrofit = "2.9.0"
 kotlinx-serialization = "1.6.3"
 coil = "2.2.2"
 okhttp-logging = "4.9.3"
-compose = "1.6.8"
+compose = "1.7.7"
 room = "2.6.1"
 hiltVersion = "2.48"
 mockito = "5.12.0"
@@ -25,9 +26,12 @@ kotlinx-coroutines-test = "1.7.1"
 android-core-testing = "2.2.0"
 monitor = "1.7.2"
 coreKtxVersion = "1.6.1"
+ui = "1.7.7"
 
 [libraries]
+androidx-compiler = { module = "androidx.compose.compiler:compiler", version.ref = "compiler" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+androidx-ui-v177 = { module = "androidx.compose.ui:ui", version.ref = "ui" }
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coilCompose" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }

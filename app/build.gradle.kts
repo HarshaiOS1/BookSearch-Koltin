@@ -3,16 +3,17 @@ plugins {
     alias(libs.plugins.jetbrainsKotlinAndroid)
     id("kotlin-kapt")
     id("com.google.dagger.hilt.android")
+    id("org.jetbrains.kotlin.plugin.compose") version "2.0.0"
 }
 
 android {
     namespace = "com.company.booksearch"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.company.booksearch"
         minSdk = 24
-        targetSdk = 34
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
 
@@ -42,7 +43,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.1"
+        kotlinCompilerExtensionVersion = libs.versions.compiler.get() // Uses toml version
     }
     packaging {
         resources {
@@ -91,4 +92,6 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+    implementation(libs.androidx.ui.v177)
+    implementation(libs.androidx.compiler)
 }
